@@ -65,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
                     intent.setSelectedPaths(imagePaths); // 已选中的照片地址， 用于回显选中状态
                     startActivityForResult(intent, REQUEST_CAMERA_CODE);
                 }else{
-                    PhotoPreviewIntent intent = new PhotoPreviewIntent(MainActivity.this);
-                    intent.setCurrentItem(position);
-                    intent.setPhotoPaths(imagePaths);
-                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
+
+                    //禁止预览
+//                    PhotoPreviewIntent intent = new PhotoPreviewIntent(MainActivity.this);
+//                    intent.setCurrentItem(position);
+//                    intent.setPhotoPaths(imagePaths);
+//                    startActivityForResult(intent, REQUEST_PREVIEW_CODE);
                 }
             }
         });
@@ -172,12 +174,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = inflater.inflate(R.layout.item_image, parent,false);
                 holder.image = (ImageView) convertView.findViewById(R.id.imageView);
+                holder.delete = (ImageView) convertView.findViewById(R.id.iv_delete);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder)convertView.getTag();
@@ -188,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
 //                holder.image.setImageResource(R.mipmap.ic_launcher);
                 //默认添加图片图标
                 holder.image.setImageResource(R.drawable.ic_multiple_image_view_add);
+                holder.delete.setVisibility(View.GONE);
             }else {
                 Glide.with(MainActivity.this)
                         .load(path)
@@ -197,10 +201,24 @@ public class MainActivity extends AppCompatActivity {
                         .crossFade()
                         .into(holder.image);
             }
+
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("我被点击了 position = "+position);
+                    System.out.println("listUrls.size() = "+listUrls.size());
+                    listUrls.remove(position);
+                    if(!listUrls.contains("000000")){
+                        listUrls.add("000000");//显示默认的+号图片
+                    }
+                    notifyDataSetChanged();
+                }
+            });
+
             return convertView;
         }
         class ViewHolder {
-            ImageView image;
+            ImageView image,delete;
         }
     }
 }
