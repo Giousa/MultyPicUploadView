@@ -185,7 +185,9 @@ public class MainActivity extends AppCompatActivity {
 
             final String path=listUrls.get(position);
             if (path.equals("000000")){
-                holder.image.setImageResource(R.mipmap.ic_launcher);
+//                holder.image.setImageResource(R.mipmap.ic_launcher);
+                //默认添加图片图标
+                holder.image.setImageResource(R.drawable.ic_multiple_image_view_add);
             }else {
                 Glide.with(MainActivity.this)
                         .load(path)

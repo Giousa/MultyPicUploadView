@@ -8,6 +8,6 @@
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/ic_multiple_image_view_add"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>
